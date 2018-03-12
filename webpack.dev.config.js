@@ -2,6 +2,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin'); //通过 npm 安装
 const webpack = require('webpack'); //访问内置的插件
 const path = require('path');  //无法被浏览器识别，但是loaders编译过后可以变成浏览器可识别的。在Node环境中可以直接运行
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin'); //压缩
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+var ManifestPlugin = require('webpack-manifest-plugin');
 
 //开发环境
 const config = {
@@ -20,13 +22,20 @@ const config = {
   //   "./index.js",
   // ],
   output: {
-    filename: 'app.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'build'),
-    publicPath:'/'
+    publicPath:'/',
+    // 添加 chunkFilename
+    chunkFilename: '[name]-[id].js',
+    /*
+      name 是在代码里为创建的 chunk 指定的名字，如果代码中没指定则 webpack 默认分配 id 作为 name。
+
+      .[chunkhash:5]. 是文件的 hash 码，这里只使用前五位。
+    */
   },
   //纠错
   // devtool: 'source-map',   //生产环境下使用
-  devtool: 'eval',      //开发环境
+  devtool: 'source-map',      //开发环境
   //运行webpack-dev-server要npm i webpack-cli -D;
   devServer:{
     contentBase:'./bulid',//建立服务，将build目录下的文件作为可访问文件
@@ -51,31 +60,34 @@ const config = {
   module: {
    rules: [
      // {
-     //    test:/\.scss$/,
-     //    loaders:['style-loader', 'css-loader', 'sass-loader']
+     //    test: /\.bundle\.js$/,
+     //    loader: 'bundle-loader',
+     //    options: {
+     //      lazy: true ,
+     //      name: '[name]'
+     //    }
      // },
      {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: [
-          'file-loader'
+        test:/\.(png|jpg|gif)$/,
+        loaders:[
+        //小于8k的图片编译为base64，大于10k的图片使用file-loader
+        'url-loader?limit=8192&name:img/[name]-[hash:5].[ext]',
+        //图片压缩
+        'image-webpack-loader'
         ]
       },
      {
-          test:/\.css$/,
-          use:['style-loader', 'css-loader']
+        test:/\.css$/,
+        use: ['style-loader', 'css-loader']
      },
      {
-          //babel-loader,babel-core,babel-preset-es2015,babel-preset-react
-          test: /\.(js|jsx)$/,
-          use: ['babel-loader']
+        test: /\.(js|jsx)$/,
+        use: ['babel-loader']
      }
-     // {
-     //     test: /\.(js|jsx)$/,
-     //     use: 'babel-loader'
-     // }
    ]
   },
   plugins: [
+    // new CleanWebpackPlugin(['build']),  //打包前清理文件;
     new webpack.BannerPlugin('版权所有，哈哈哈哈哈哈哈哈哈哈哈哈哈'),
     new UglifyJSPlugin({
        sourceMap: true
@@ -85,8 +97,9 @@ const config = {
     }),//创建html页面  https://www.cnblogs.com/wonyun/p/6030090.html 详解配置设置模板，输出位置，多个HTML页面
     new webpack.NamedModulesPlugin(),
     //热更新时，模块名字更加友好
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
     //热更新，启动后别再命令行中添加 --hot  要不然会报maximum call stack size exceeded错误(栈溢出)；
+    // new ManifestPlugin()
   ]
 }
 

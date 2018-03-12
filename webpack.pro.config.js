@@ -31,9 +31,12 @@ const config = {
      //    }
      // },
      {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: [
-          'file-loader'
+        test:/\.(png|jpg|gif)$/,
+        loaders:[
+        //小于8k的图片编译为base64，大于10k的图片使用file-loader
+        'url-loader?limit=8192&name:img/[name]-[hash:5].[ext]',
+        //图片压缩
+        'image-webpack-loader'
         ]
       },
      {

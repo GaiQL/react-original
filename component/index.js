@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { hot } from 'react-hot-loader';
+import '../style/style.css'
 
 // import CommodityAM from './commodityAM/commodityAM.bundle';
 // import CommodityYM from './commodityYM/commodityYM.bundle';
-import { AsReq_CommodityAM,AsReq_CommodityYM } from '../asRequired/asRequired_component.js';
+import { AsReq_CommodityAM,AsReq_CommodityYM,AsReq_Invitation,AsReq_Massagist } from '../asRequired/asRequired_component.js';
 
 import { BrowserRouter, Route, Link,Switch,HashRouter } from 'react-router-dom';
 //使用browserHistory后，需要服务端重定向，把所有请求都重定向到/,这样react-router就能识别出当前路由
@@ -29,11 +30,11 @@ class Try extends React.Component{
     return (
       <BrowserRouter basename="/">
         <div>
-          <Link to="/commodityAM">123213嘿嘿</Link>
-          <Link to="/commodityYM">123213</Link>
           <Switch>
             <Route path="/commodityAM" component={AsReq_CommodityAM} />
             <Route path="/commodityYM" component={AsReq_CommodityYM} />
+            <Route path="/invitation" component={AsReq_Invitation} />
+            <Route path="/massagist" component={AsReq_Massagist} />
             <Route path="/" render={() => <h1>Home</h1>} />
           </Switch>
         </div>
