@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 var AMData = require('../../json/am.json');
-var Mock = require('mockjs');
+// var Mock = require('mockjs');
 // import FetchMock from 'fetch-mock';
 
 class CommodityYM extends React.Component{
@@ -33,7 +33,6 @@ class CommodityYM extends React.Component{
     return (
       <div>
         <div>嘿嘿嘿</div>
-        <img src={require('../../img/add.jpg')}/>
 
       </div>
     )

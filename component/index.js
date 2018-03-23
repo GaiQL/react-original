@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { hot } from 'react-hot-loader';
-import '../style/style.css'
+// import '../style/style.css'
 
 // import CommodityAM from './commodityAM/commodityAM.bundle';
 // import CommodityYM from './commodityYM/commodityYM.bundle';

@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { hot } from 'react-hot-loader';
 
-import './bower_components/mockjs/dist/mock.js';
-import './module/pxSolution.js';
-import './style/style.css';
+// import './bower_components/mockjs/dist/mock.js';
+// import './module/pxSolution.js';
+// import './style/style.css';
 
 import Try from './component/index.js';
 

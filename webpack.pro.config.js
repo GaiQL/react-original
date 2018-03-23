@@ -10,7 +10,7 @@ const config = {
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'build'),
-    publicPath:'/',
+    publicPath:'./',
     // 添加 chunkFilename
     chunkFilename: '[name]-[id].js',
     /*
@@ -19,7 +19,7 @@ const config = {
       .[chunkhash:5]. 是文件的 hash 码，这里只使用前五位。
     */
   },
-  devtool: 'none',   //生产环境下使用
+  devtool: 'inline-source-map',   //生产环境下使用
   module: {
    rules: [
      // {
@@ -45,7 +45,13 @@ const config = {
      },
      {
         test: /\.(js|jsx)$/,
-        use: ['babel-loader']
+        use:{
+          loader: 'babel-loader',
+          options: {
+            presets: ['es2015', 'stage-0', 'react'],
+            plugins: []
+          }
+        }
      }
    ]
   },
