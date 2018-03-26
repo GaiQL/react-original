@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button } from 'antd';
+import { Form, Input,  Row, Col, Button } from 'antd';
 const FormItem = Form.Item;
-const Option = Select.Option;
 
 class RegistrationForm extends React.Component {
   // state = {
@@ -55,7 +54,7 @@ class RegistrationForm extends React.Component {
       },
     };
     return (
-      <Form onSubmit={ this.handleSubmit }>
+      <div>
         <FormItem
           {...formItemLayout}
           label="手机号"
@@ -97,7 +96,7 @@ class RegistrationForm extends React.Component {
           )}
         </FormItem>
         <Button type="primary" onClick={()=>{this.handleSubmit()}}>Submit</Button>
-      </Form>
+      </div>
     );
   }
 }
