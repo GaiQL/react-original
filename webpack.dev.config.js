@@ -35,7 +35,7 @@ const config = {
   },
   //纠错
   // devtool: 'source-map',   //生产环境下使用
-  devtool: 'source-map',      //开发环境
+  devtool: 'cheap-module-eval-source-map',      //开发环境
   //运行webpack-dev-server要npm i webpack-cli -D;
   devServer:{
     contentBase:'./bulid',//建立服务，将build目录下的文件作为可访问文件
@@ -53,9 +53,9 @@ const config = {
   },
   //监听配置,想要提升webapck-dev-server的监听更改速度，但是实际上并没有用.....
   watchOptions: {
-    aggregateTimeout: 300,
-    ignored:/node_modules/
-    // poll: 1000
+    aggregateTimeout: 500,
+    ignored:/node_modules/,
+    poll: 1000
   },
   module: {
    rules: [
@@ -89,9 +89,9 @@ const config = {
   plugins: [
     // new CleanWebpackPlugin(['build']),  //打包前清理文件;
     new webpack.BannerPlugin('版权所有，哈哈哈哈哈哈哈哈哈哈哈哈哈'),
-    new UglifyJSPlugin({
-       sourceMap: true
-    }),//压缩
+    // new UglifyJSPlugin({
+    //    sourceMap: true
+    // }),//压缩
     new HtmlWebpackPlugin({
       template:'./template.html'
     }),//创建html页面  https://www.cnblogs.com/wonyun/p/6030090.html 详解配置设置模板，输出位置，多个HTML页面

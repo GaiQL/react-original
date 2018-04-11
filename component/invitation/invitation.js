@@ -4,13 +4,14 @@ import { Form, Input,  Row, Col, Button } from 'antd';
 const FormItem = Form.Item;
 
 class RegistrationForm extends React.Component {
-  // state = {
-  //   confirmDirty: false,
-  // };
+  state = {
+    confirmDirty: false,
+  };
+
   handleSubmit = (e) => {
     //   preventDefault ---- 取消事件的默认动作。
     //   如果 Event 对象的 cancelable 属性是 fasle，那么就没有默认动作，或者不能阻止默认动作。
-    // e.preventDefault();     可以不用submit类型提交，去掉这个
+    e.preventDefault();     //可以不用submit类型提交，去掉这个
     //validateFieldsAndScroll , 校验后有错误会自动滚动到错误表单。
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (err) {
@@ -19,26 +20,29 @@ class RegistrationForm extends React.Component {
       console.log(values);
     });
   }
-  // handleConfirmBlur = (e) => {
-  //   const value = e.target.value;
-  //   this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-  // }
 
-  // checkPassword = (rule, value, callback) => {
-  //   const form = this.props.form;
-  //   if (value && value !== form.getFieldValue('password')) {
-  //     callback('您两次输入的密码不一致!');
-  //   } else {
-  //     callback();
-  //   }
-  // }
-  // checkConfirm = (rule, value, callback) => {
-  //   const form = this.props.form;
-  //   if (value && this.state.confirmDirty) {
-  //     form.validateFields(['confirm'], { force: true });
-  //   }
-  //   callback();
-  // }
+
+  handleConfirmBlur = (e) => {
+    const value = e.target.value;
+    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+  }
+
+  checkPassword = (rule, value, callback) => {
+    const form = this.props.form;
+    if (value && value !== form.getFieldValue('password')) {
+      callback('您两次输入的密码不一致!');
+    } else {
+      callback();
+    }
+  }
+
+  checkConfirm = (rule, value, callback) => {
+    const form = this.props.form;
+    if (value && this.state.confirmDirty) {
+      form.validateFields(['confirm'], { force: true });
+    }
+    callback();
+  }
 
 
   render() {
@@ -54,7 +58,7 @@ class RegistrationForm extends React.Component {
       },
     };
     return (
-      <div>
+      <Form onSubmit={this.handleSubmit}>
         <FormItem
           {...formItemLayout}
           label="手机号"
@@ -63,19 +67,19 @@ class RegistrationForm extends React.Component {
           {
             //
             getFieldDecorator('moubile', {
-            //校验规则
-            rules: [{
-              // type: 'email', message: 'The input is not valid E-mail!',      //内建校验类型
-              message:'请输入11位数字',
-              pattern:/^\d{11}$/
-            }, {
-              //是否必选
-              required: true, message: '请输入手机号！',
-            }],
-          })(
-            <Input />
-          )
-        }
+              //校验规则
+              rules: [{
+                // type: 'email', message: 'The input is not valid E-mail!',      //内建校验类型
+                message:'请输入11位数字',
+                pattern:/^\d{11}$/
+              }, {
+                //是否必选
+                required: true, message: '请输入手机号！',
+              }],
+            })(
+              <Input />
+            )
+          }
         </FormItem>
         <FormItem
           {...formItemLayout}
@@ -84,19 +88,34 @@ class RegistrationForm extends React.Component {
         >
           {getFieldDecorator('password', {
             rules: [{
-              required: true, message: '请输入密码！',
+              required: true,
+              message: '请输入密码，6-20位字符，可包含数字字母下划线！',
+              pattern: /^[\w]{6,20}$/
             }, {
-              // validator: this.checkConfirm,    //自定义校验，函数内必须调用第三个callback参数
-              min:6,
-              max:30,
-              message:'请输入至少六位字符的密码'
+              validator: this.checkConfirm,    //自定义校验，函数内必须调用第三个callback参数
             }],
           })(
-            <Input />
+            <Input type="password"/>
           )}
         </FormItem>
-        <Button type="primary" onClick={()=>{this.handleSubmit()}}>Submit</Button>
-      </div>
+        <FormItem
+          {...formItemLayout}
+          label="重复密码"
+          hasFeedback
+        >
+          {getFieldDecorator('confirm', {
+            rules: [{
+              required: true,
+              message: '请重复确认密码！',
+            }, {
+              validator: this.checkPassword,
+            }],
+          })(
+            <Input type="password" onBlur={this.handleConfirmBlur} />
+          )}
+        </FormItem>
+        <Button type="primary" htmlType="submit">Submit提交123123123123哇撒！！！！！！</Button>
+      </Form>
     );
   }
 }

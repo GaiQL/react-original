@@ -1,6 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 var AMData = require('../../json/am.json');
+import '../../module/swiper/swiper-4.1.6.min.css';
+// import '../../module/swiper/swiper-4.1.6.min.js';
+var Swiper = require('../../module/swiper/swiper-4.1.6.min.js');
+
+import './swiperstyle.css'
 // var Mock = require('mockjs');
 // import FetchMock from 'fetch-mock';
 
@@ -9,31 +14,39 @@ class CommodityYM extends React.Component{
     super();
     this.state = {
       num:0,
-      dataOrigin:{}
+      dataOrigin:{},
+      imgArr:['http://image-product-web.oss-cn-beijing.aliyuncs.com/ym_hospital/1517918494792.png','http://image-product-web.oss-cn-beijing.aliyuncs.com/ym_hospital/1517918992690.png','http://image-product-web.oss-cn-beijing.aliyuncs.com/ym_hospital/1522811316779.jpg']
     }
   }
   componentDidMount(){
     console.log( AMData );
-    // fetch.get('http://192.168.0.125:8080/hotr-api-web/product/detail.do')
-    // .then((response) => response.json())
-    // .then((data) => {
-    //   // 网络异常 如断网
-    //   if (data.error) {
-    //     console.log( data.error )
-    //   }
-    //   // 正常业务处理
-    //   else {
-    //     console.log(data);
-    //   }
-    // })
-    // // 异常处理
-    // .catch((err) => {console.log(err)});
+
+    var mySwiper = new Swiper ('.swiper-container', {
+      direction: 'horizontal',
+      loop: true,
+      autoplay: true,
+      // 如果需要分页器
+      pagination: {
+        el: '.swiper-pagination',
+      }
+    })
   }
   render(){
+    let { imgArr } = this.state;
     return (
       <div>
-        <div>嘿嘿嘿</div>
+        <div className="swiper-container">
+          <div className="swiper-wrapper">
+              {
 
+                imgArr.map(( e,i )=>{
+                  return ( <div className="swiper-slide" key={ i }><img src={ e } /></div> )
+                })
+
+              }
+          </div>
+          <div className="swiper-pagination"></div>
+        </div>
       </div>
     )
   }
